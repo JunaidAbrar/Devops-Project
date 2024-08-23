@@ -1,12 +1,11 @@
 terraform {
-    required_providers{
+    required_providers {
         aws = {
-            source = "hashicorp/aws"
+            source  = "hashicorp/aws"
             version = "4.0"
-        
         }
     }
-    backend "s3"{
+    backend "s3" {
         key = "aws/ec2-deploy/terraform.tfstate"
     }
 }
@@ -35,45 +34,46 @@ resource "aws_iam_instance_profile" "ec2-profile"{
     role = "EC2-ECR-AUTH"
 }
 
-resource "aws_security_group" "maingoup"{
+resource "aws_security_group" "maingoup" {
     egress = [
         {
-            cidr_blocks = ["0.0.0.0/0"]
-            description = ""
-            from_port = 0
+            cidr_blocks      = ["0.0.0.0/0"]
+            description      = ""
+            from_port        = 0
             ipv6_cidr_blocks = []
-            prefix_list_ids = []
-            protocol = "-1"
-            security_groups = []
-            self = false
-            to_port = 0
+            prefix_list_ids  = []
+            protocol         = "-1"
+            security_groups  = []
+            self             = false
+            to_port          = 0
         }
     ]
     ingress = [
                 {
-            cidr_blocks = ["0.0.0.0/0", ]
-            description = ""
-            from_port = 22
+            cidr_blocks      = ["0.0.0.0/0"]
+            description      = ""
+            from_port        = 22
             ipv6_cidr_blocks = []
-            prefix_list_ids = []
-            protocol = "tcp"
-            security_groups = []
-            self = false
-            to_port = 22
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = false
+            to_port          = 22
+        },
+        {
+            cidr_blocks      = ["0.0.0.0/0"]
+            description      = ""
+            from_port        = 80
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = false
+            to_port          = 80
         }
     ]
-            {
-            cidr_blocks = ["0.0.0.0/0", ]
-            description = ""
-            from_port = 80
-            ipv6_cidr_blocks = []
-            prefix_list_ids = []
-            protocol = "tcp"
-            security_groups = []
-            self = false
-            to_port = 80
-        }
 }
+
 
 resource "aws_key_pair" "deployer"{
     key_name = var.key_name
